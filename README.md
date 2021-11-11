@@ -1,5 +1,6 @@
-# High order functions with random money
+# A mini project using High Order Functions
 
-used api to generate name and money
+- Fetch random users from the [randomuser.me](https://randomuser.me) API
+- Use forEach(), map, filter, sort, reduce to show different results
 
 ![demo](https://github.com/charlisung/money-high-order-func/blob/main/Kapture%202021-09-04%20at%2011.15.43.gif)
