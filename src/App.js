@@ -1,24 +1,24 @@
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
+import Buttons from "./components/Buttons";
+import Result from "./components/Result";
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [total, setTotal] = useState('');
+  const [total, setTotal] = useState("");
+
   const fetchNewUser = async () => {
-    const res = await fetch('https://randomuser.me/api');
-    const data = await res.json();
-    return data;
+    const data = await axios.get("https://randomuser.me/api");
+    return data.data.results[0].name;
   };
 
   const addNewUser = async () => {
-    const userInfo = await fetchNewUser();
-    const name = userInfo.results[0].name;
-
+    const name = await fetchNewUser();
     const money = Math.random() * 1000000;
-    const newUserInfo = { ...name, money };
 
-    const copy = [...users];
-    copy.push(newUserInfo);
-    setUsers(copy);
+    const newUser = { ...name, money };
+
+    setUsers([...users, newUser]);
   };
 
   const doubleMoney = () => {
@@ -40,58 +40,33 @@ function App() {
   };
 
   const formatMoney = (money) => {
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    let formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     });
     return formatter.format(money);
+  };
+
+  const reset = () => {
+    setUsers([]);
+    setTotal("");
   };
 
   return (
     <div className="App">
       <div className="container">
         <aside className="aside">
-          <button className="btn" onClick={addNewUser}>
-            Add new 👶
-          </button>
-          <button className="btn" onClick={doubleMoney}>
-            Double 💲
-          </button>
-          <button className="btn" onClick={showMillionaries}>
-            Millionaries 👑
-          </button>
-          <button className="btn" onClick={sortByRichest}>
-            Sort by 🤑
-          </button>
-          <button className="btn" onClick={calculateTotal}>
-            Total 💸
-          </button>
+          <Buttons
+            addNewUser={addNewUser}
+            doubleMoney={doubleMoney}
+            showMillionaries={showMillionaries}
+            sortByRichest={sortByRichest}
+            calculateTotal={calculateTotal}
+            reset={reset}
+          />
         </aside>
         <main>
-          <div className="main-title">
-            <h3>Name</h3> <h3>Money</h3>
-          </div>
-
-          {users.map((user) => {
-            return (
-              <div className="main-content" key={user.money}>
-                <h3>
-                  {user.first} {user.last}
-                </h3>{' '}
-                <h3>{formatMoney(user.money)}</h3>
-              </div>
-            );
-          })}
-
-          {total && (
-            <div
-              className="main-content"
-              style={{ borderTop: '1px solid #eee', marginTop: '10px' }}
-            >
-              <h3>Total</h3>
-              <h3>{formatMoney(total)}</h3>
-            </div>
-          )}
+          <Result users={users} total={total} formatMoney={formatMoney} />
         </main>
       </div>
     </div>

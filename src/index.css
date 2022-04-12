@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 * {
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +33,7 @@ body {
   border-radius: 4px;
   margin: 5px 0;
   color: rgba(0, 0, 0, 0.791);
+  cursor: pointer;
 }
 
 main {
